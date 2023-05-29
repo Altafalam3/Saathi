@@ -5,6 +5,7 @@ import Login from "./screens/loginpage/LoginPage";
 
 import "./App.css";
 import Welcome from "./screens/findflatmates/Welcome";
+import Profile from "./screens/profile/Profile";
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/" element={<Landing />} />
                     <Route path="/welcomepage" element={<Welcome />} />
+                    <Route path="/profile" element={<Profile />} />
                 </Routes>
             </BrowserRouter>
         </div>
