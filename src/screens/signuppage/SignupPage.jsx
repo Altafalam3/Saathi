@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import './signuppage.css'
-import { account } from '../../services/appwriteConfig'
+import { account }  from '../../services/appwriteConfig'
 
 import {  useNavigate } from 'react-router-dom'
 // import { Navigate } from 'react-router-dom';

@@ -1,7 +1,7 @@
 import React, { useState} from 'react';
 import './loginpage.css'
 import { useNavigate } from 'react-router-dom'
-import { account } from '../../services/appwriteConfig'
+import { account } from '../../services/appwriteConfig';
 
 
 const LoginPage = () => {
@@ -16,7 +16,7 @@ const LoginPage = () => {
     try {
       const loggedUser = await account.createEmailSession(userDetails.email, userDetails.password);
       console.log(loggedUser);
-      navigate("/profile");
+      navigate("/quiz");
     } catch (error) {
       console.log(error);
     };

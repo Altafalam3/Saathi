@@ -1,6 +1,6 @@
 import React, {useEffect,useState} from 'react'
 
-import { account } from '../../services/appwriteConfig'
+import { account }  from '../../services/appwriteConfig'
 
 import {  useNavigate, Link } from 'react-router-dom'
 
