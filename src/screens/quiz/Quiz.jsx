@@ -2,6 +2,10 @@ import { Query } from "appwrite";
 import {  databases } from "../../services/appwriteConfig";
 import React, { useState, useEffect } from "react";
 import {  useNavigate } from 'react-router-dom'
+import Navbar from "../../components/navbar/Navbar";
+import Footer from "../../components/footer/Footer";
+import './Quiz.css'
+import { ID } from 'appwrite';
 
 
 const QuizCard = () => {
@@ -9,8 +13,10 @@ const QuizCard = () => {
   const [options, setOptions] = useState([]);
   const [index, setIndex] = useState(0);
   const [answer, setanswer] = useState("")
-  const [id, setId] = useState("")
- 
+  console.log(answer);
+  const [id, setId] = useState([""])
+  const updateID = id[0].toString()
+  console.log(updateID)
   const navigate = useNavigate();
    const nextQuestion = () => {
     if (index < questions.length && options.length - 1) {
@@ -22,7 +28,9 @@ const QuizCard = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    const promise = databases.updateDocument("6475bc41d08143bd0b2e", "6475bc4f578738f63e3c", id)
+    const promise = databases.createDocument("6475bc41d08143bd0b2e", "6477c45dbbca449075e2", ID.unique(), {
+      answer
+    })
 
     promise.then(
       function (response) {
@@ -35,22 +43,23 @@ const QuizCard = () => {
 
   }
   
-  console.log(id);
-   
+  
        useEffect(() => {
               const getQuestion = databases.listDocuments("6475bc41d08143bd0b2e", "6475bc4f578738f63e3c",);
               getQuestion.then(
                      function (response) { 
                             setQuestions(response.documents);   
                   setOptions(response.documents) 
-                  setId(response)
-                 
-               
+                  const documents = response.documents;
+                  const documentIds = documents.map((document) => document.$id);
+                  setId(documentIds);
                      }, function (error) {
     console.log(error);
 });
        
        }, [])
+  console.log(id);
+   
  
   const currentQuestion = questions[index] || {};
   const currentOption = options[index] || {};
@@ -58,15 +67,17 @@ const QuizCard = () => {
        
        return (
          <div>
+           <Navbar />
+           <div className="quiz_mid">
            <form action="" onSubmit={handleSubmit}>
      {currentQuestion && (
-        <div>
-          <h1>Question:</h1>
+        <div className="quiz_question">
+        
           <p>{currentQuestion.question}</p>
         </div>
            )}
-           <div>
-        
+           <div className="quiz_options">
+        <div className="quiz_option1">
            {currentOption.option && (
           <>
             <input type="radio" name="option" id="" value={currentOption.option} id="" onChange={(e) => {
@@ -74,7 +85,9 @@ const QuizCard = () => {
             }} />
             <label>{currentOption.option}</label>
           </>
-        )}
+                   )}
+                 </div>
+                  <div className="quiz_option2">
           {currentOption.option2 && (
           <>
             <input type="radio" name="option" id="" value={currentOption.option2} id="" onChange={(e) => {
@@ -82,7 +95,9 @@ const QuizCard = () => {
             }}/>
             <label>{currentOption.option2}</label>
           </>
-        )}
+                   )}
+                 </div>
+                 <div className="quiz_option3">
               {currentOption.option3 && (
           <>
             <input type="radio" name="option" id="" value={currentOption.option3} id="" onChange={(e) => {
@@ -90,7 +105,9 @@ const QuizCard = () => {
             }}/>
             <label>{currentOption.option3}</label>
           </>
-        )}
+                   )}
+                 </div>
+                 <div className="quiz_option4">
               {currentOption.option4 && (
           <>
             <input type="radio" name="option" id="" value={currentOption.option4} id="" onChange={(e) => {
@@ -98,18 +115,28 @@ const QuizCard = () => {
             }} />
             <label>{currentOption.option4}</label>
           </>
-        )}
+                   )}
+                 </div>
+                 <div className="quiz_option5">
              {currentOption.option5 && (
           <>
                    <input type="radio" name="option" value={currentOption.option5} id="" onChange={(e) => {
-                     setanswer(e.target.value)
-            }} />
-            <label>{currentOption.option5}</label>
-          </>
-        )}
-      </div>
-             <button onClick={nextQuestion}>Next Question</button>
+                         setanswer(e.target.value)
+ }} />
+                             <label>{currentOption.option5}</label>
+                       </>
+                       
+                        )}
+                      
+                 </div>
+                 <div className="quiz_submit">
+                       <button onClick={nextQuestion}>Continue</button>
+                 </div>
+                 </div>
              </form>
+             
+             </div>
+           <Footer/>
   </div>
   );          
 };
